@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="95" fill="#3f51b5" />
+  <circle cx="100" cy="100" r="85" fill="#283593" />
+  
+  <!-- Room Outline -->
+  <path d="M50,60 L150,60 L150,140 L50,140 Z" fill="none" stroke="#ffffff" stroke-width="4" />
+  
+  <!-- Table -->
+  <rect x="65" y="90" width="70" height="40" fill="#ffffff" />
+  <rect x="70" y="130" width="5" height="10" fill="#ffffff" />
+  <rect x="125" y="130" width="5" height="10" fill="#ffffff" />
+  
+  <!-- Chair -->
+  <rect x="85" y="70" width="30" height="5" fill="#ffffff" />
+  <rect x="90" y="75" width="20" height="10" fill="#ffffff" />
+  <rect x="90" y="85" width="5" height="20" fill="#ffffff" />
+  <rect x="105" y="85" width="5" height="20" fill="#ffffff" />
+  
+  <!-- Sofa -->
+  <rect x="40" y="90" width="15" height="40" fill="#ffffff" />
+  <rect x="40" y="85" width="15" height="5" fill="#ffffff" />
+  
+  <!-- Cabinet -->
+  <rect x="145" y="65" width="15" height="70" fill="#ffffff" />
+  <circle cx="148" cy="100" r="2" fill="#283593" />
+  
+  <!-- 3D effect lines -->
+  <line x1="50" y1="60" x2="60" y2="50" stroke="#ffffff" stroke-width="2" />
+  <line x1="150" y1="60" x2="160" y2="50" stroke="#ffffff" stroke-width="2" />
+  <line x1="150" y1="140" x2="160" y2="130" stroke="#ffffff" stroke-width="2" />
+  <line x1="60" y1="50" x2="160" y2="50" stroke="#ffffff" stroke-width="2" />
+  <line x1="160" y1="50" x2="160" y2="130" stroke="#ffffff" stroke-width="2" />
+  
+  <!-- Title Arc -->
+  <path d="M30,160 Q100,190 170,160" fill="none" stroke="#ffffff" stroke-width="0" />
+</svg>

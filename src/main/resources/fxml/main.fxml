@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.furniture.visualizer.controller.MainController"
+            styleClass="main-window">
+    
+    <top>
+        <VBox spacing="5">
+            <padding>
+                <Insets top="10.0" right="10.0" bottom="5.0" left="10.0"/>
+            </padding>
+            
+            <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="main-toolbar">
+                <Label text="Furniture Visualizer" styleClass="header-label">
+                    <font>
+                        <Font name="System Bold" size="18.0"/>
+                    </font>
+                </Label>
+                
+                <Region HBox.hgrow="ALWAYS" />
+                
+                <HBox spacing="5" styleClass="toggle-container">
+                    <ToggleButton fx:id="view2DToggle" text="2D View" selected="true"/>
+                    <ToggleButton fx:id="view3DToggle" text="3D View"/>
+                </HBox>
+                
+                <Button text="Exit" onAction="#handleExit" styleClass="exit-button"/>
+            </HBox>
+            
+            <Separator />
+        </VBox>
+    </top>
+    
+    <center>
+        <SplitPane dividerPositions="0.25, 0.75">
+            <!-- Left panel - Design list & room config -->
+            <VBox spacing="10" styleClass="side-panel">
+                <padding>
+                    <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+                </padding>
+                
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Designs" styleClass="panel-header"/>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button text="New" onAction="#handleNewDesign" styleClass="small-button"/>
+                    <Button text="Save" onAction="#handleSaveDesign" styleClass="small-button"/>
+                    <Button text="Delete" onAction="#handleDeleteDesign" styleClass="small-button"/>
+                </HBox>
+                
+                <ListView fx:id="designListView" VBox.vgrow="ALWAYS" styleClass="designs-list-view"/>
+                
+                <TitledPane text="Room Configuration" expanded="true" styleClass="config-pane">
+                    <VBox fx:id="roomConfigContainer" spacing="8">
+                        <HBox spacing="5">
+                            <Label text="Width:" />
+                            <TextField fx:id="roomWidthField" promptText="Width (m)" prefWidth="80" />
+                            <Label text="Length:" />
+                            <TextField fx:id="roomLengthField" promptText="Length (m)" prefWidth="80" />
+                        </HBox>
+                        
+                        <HBox spacing="5">
+                            <Label text="Height:" />
+                            <TextField fx:id="roomHeightField" promptText="Height (m)" prefWidth="80" />
+                            <Label text="Shape:" />
+                            <ComboBox fx:id="roomShapeComboBox" prefWidth="80" />
+                        </HBox>
+                        
+                        <Label text="Room Color:" />
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <Label text="Wall:" />
+                            <ColorPicker fx:id="wallColorPicker" prefWidth="100" />
+                            <Label text="Floor:" />
+                            <ColorPicker fx:id="floorColorPicker" prefWidth="100" />
+                        </HBox>
+                    </VBox>
+                </TitledPane>
+            </VBox>
+            
+            <!-- Center panel - Visualization area -->
+            <StackPane fx:id="visualizationPane" styleClass="visualization-pane">
+                <!-- Visualization will be added here dynamically -->
+            </StackPane>
+            
+            <!-- Right panel - Design details & furniture list -->
+            <VBox spacing="10" styleClass="side-panel">
+                <padding>
+                    <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+                </padding>
+                
+                <TitledPane text="Design Details" expanded="true" styleClass="config-pane">
+                    <VBox spacing="5">
+                        <Label text="Name" styleClass="form-label"/>
+                        <TextField fx:id="nameField"/>
+                        
+                        <Label text="Description" styleClass="form-label"/>
+                        <TextArea fx:id="descriptionField" prefHeight="60"/>
+                        
+                        <Label text="Furniture Type" styleClass="form-label"/>
+                        <ComboBox fx:id="typeComboBox" maxWidth="Infinity"/>
+                        
+                        <Label text="Material" styleClass="form-label"/>
+                        <ComboBox fx:id="materialComboBox" maxWidth="Infinity"/>
+                    </VBox>
+                </TitledPane>
+                
+                <TitledPane text="Visualization Options" expanded="true" styleClass="config-pane">
+                    <VBox spacing="5">
+                        <CheckBox fx:id="showGridCheckbox" text="Show Grid"/>
+                        <CheckBox fx:id="showDimensionsCheckbox" text="Show Dimensions"/>
+                        <CheckBox fx:id="showLabelsCheckbox" text="Show Labels"/>
+                        
+                        <Separator/>
+                        
+                        <Label text="Design Manipulation" styleClass="sub-header"/>
+                        <Button text="Scale Design" onAction="#handleScaleDesign" styleClass="action-button"/>
+                        <Button text="Change Color" onAction="#handleChangeColor" styleClass="action-button"/>
+                        <Button text="Add Shade" onAction="#handleAddShade" styleClass="action-button"/>
+                    </VBox>
+                </TitledPane>
+                
+                <Label text="Furniture Items" styleClass="panel-header"/>
+                
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="Add" onAction="#handleAddFurniture" styleClass="small-button"/>
+                    <Button text="Edit" onAction="#handleEditFurniture" styleClass="small-button"/>
+                    <Button text="Delete" onAction="#handleDeleteFurniture" styleClass="small-button"/>
+                </HBox>
+                
+                <ListView fx:id="furnitureListView" VBox.vgrow="ALWAYS" styleClass="furniture-list-view"/>
+            </VBox>
+        </SplitPane>
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" styleClass="statusbar">
+            <padding>
+                <Insets top="5.0" right="10.0" bottom="5.0" left="10.0"/>
+            </padding>
+            <Label text="Furniture Visualizer - v1.0.0" styleClass="status-label"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>
