@@ -3,13 +3,15 @@ package com.furniture.visualizer.view;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.ScrollPane;
 import javafx.scene.paint.Color;
 import javafx.util.converter.NumberStringConverter;
 
 import java.util.function.Consumer;
 
-public class RoomConfigPanel extends GridPane {
-    
+public class RoomConfigPanel extends ScrollPane { // Change to extend ScrollPane
+    private final GridPane grid; // Create a GridPane to hold the controls
+
     private final TextField widthField;
     private final TextField heightField;
     private final TextField depthField;
@@ -24,15 +26,16 @@ public class RoomConfigPanel extends GridPane {
     private Consumer<Color> onColorChange;
     
     public RoomConfigPanel() {
-        setHgap(10);
-        setVgap(10);
-        setPadding(new Insets(10));
+        grid = new GridPane(); // Initialize the GridPane
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(10));
         
         // Room width controls
-        add(new Label("Width (m):"), 0, 0);
+        grid.add(new Label("Width (m):"), 0, 0);
         widthField = new TextField("3.0");
         widthField.setPrefWidth(60);
-        add(widthField, 1, 0);
+        grid.add(widthField, 1, 0);
         
         roomWidthSlider = new Slider(1.0, 10.0, 3.0);
         roomWidthSlider.setShowTickMarks(true);
@@ -41,13 +44,13 @@ public class RoomConfigPanel extends GridPane {
         roomWidthSlider.setMinorTickCount(4);
         roomWidthSlider.setBlockIncrement(0.1);
         roomWidthSlider.setPrefWidth(150);
-        add(roomWidthSlider, 2, 0);
+        grid.add(roomWidthSlider, 2, 0);
         
         // Room height controls
-        add(new Label("Height (m):"), 0, 1);
+        grid.add(new Label("Height (m):"), 0, 1);
         heightField = new TextField("2.5");
         heightField.setPrefWidth(60);
-        add(heightField, 1, 1);
+        grid.add(heightField, 1, 1);
         
         roomHeightSlider = new Slider(1.0, 5.0, 2.5);
         roomHeightSlider.setShowTickMarks(true);
@@ -56,13 +59,13 @@ public class RoomConfigPanel extends GridPane {
         roomHeightSlider.setMinorTickCount(4);
         roomHeightSlider.setBlockIncrement(0.1);
         roomHeightSlider.setPrefWidth(150);
-        add(roomHeightSlider, 2, 1);
+        grid.add(roomHeightSlider, 2, 1);
         
         // Room depth controls
-        add(new Label("Depth (m):"), 0, 2);
+        grid.add(new Label("Depth (m):"), 0, 2);
         depthField = new TextField("4.0");
         depthField.setPrefWidth(60);
-        add(depthField, 1, 2);
+        grid.add(depthField, 1, 2);
         
         roomDepthSlider = new Slider(1.0, 10.0, 4.0);
         roomDepthSlider.setShowTickMarks(true);
@@ -71,57 +74,33 @@ public class RoomConfigPanel extends GridPane {
         roomDepthSlider.setMinorTickCount(4);
         roomDepthSlider.setBlockIncrement(0.1);
         roomDepthSlider.setPrefWidth(150);
-        add(roomDepthSlider, 2, 2);
+        grid.add(roomDepthSlider, 2, 2);
         
         // Wall color control
-        add(new Label("Wall Color:"), 0, 3);
+        grid.add(new Label("Wall Color:"), 0, 3);
         wallColorPicker = new ColorPicker(Color.WHITE);
-        add(wallColorPicker, 1, 3, 2, 1);
+        grid.add(wallColorPicker, 1, 3, 2, 1);
         
         // Bind text fields and sliders
         bindTextFieldToSlider(widthField, roomWidthSlider);
         bindTextFieldToSlider(heightField, roomHeightSlider);
         bindTextFieldToSlider(depthField, roomDepthSlider);
         
-        // Add listeners
-        widthField.textProperty().addListener((obs, oldVal, newVal) -> {
-            try {
-                double value = Double.parseDouble(newVal);
-                if (value > 0 && onWidthChange != null) {
-                    onWidthChange.accept(value);
-                }
-            } catch (NumberFormatException e) {
-                // Ignore invalid input
-            }
-        });
-        
-        heightField.textProperty().addListener((obs, oldVal, newVal) -> {
-            try {
-                double value = Double.parseDouble(newVal);
-                if (value > 0 && onHeightChange != null) {
-                    onHeightChange.accept(value);
-                }
-            } catch (NumberFormatException e) {
-                // Ignore invalid input
-            }
-        });
-        
-        depthField.textProperty().addListener((obs, oldVal, newVal) -> {
-            try {
-                double value = Double.parseDouble(newVal);
-                if (value > 0 && onDepthChange != null) {
-                    onDepthChange.accept(value);
-                }
-            } catch (NumberFormatException e) {
-                // Ignore invalid input
-            }
-        });
+        // Add listeners with validation
+        addInputValidation(widthField, onWidthChange);
+        addInputValidation(heightField, onHeightChange);
+        addInputValidation(depthField, onDepthChange);
         
         wallColorPicker.setOnAction(e -> {
             if (onColorChange != null) {
                 onColorChange.accept(wallColorPicker.getValue());
             }
         });
+        
+        // Set the content of the ScrollPane to the GridPane
+        setContent(grid);
+        setFitToWidth(true); // Allow the ScrollPane to fit the width of the parent
+        setFitToHeight(true); // Allow the ScrollPane to fit the height of the parent
     }
     
     private void bindTextFieldToSlider(TextField textField, Slider slider) {
@@ -137,6 +116,27 @@ public class RoomConfigPanel extends GridPane {
                 }
             } catch (NumberFormatException e) {
                 textField.setText(oldValue);
+            }
+        });
+    }
+    
+    private void addInputValidation(TextField textField, Consumer<Double> onChange) {
+        textField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.isEmpty()) {
+                textField.setStyle("-fx-border-color: red;"); // Highlight empty input
+                return;
+            }
+            try {
+                double value = Double.parseDouble(newVal);
+                if (value > 0 && onChange != null) {
+                    onChange.accept(value);
+                    textField.setStyle(""); // Reset style on valid input
+                } else {
+                    textField.setStyle("-fx-border-color: red;"); // Highlight invalid input
+                }
+            } catch (NumberFormatException e) {
+                textField.setText(oldVal); // Reset to previous valid value
+                textField.setStyle("-fx-border-color: red;"); // Highlight invalid input
             }
         });
     }
@@ -157,7 +157,6 @@ public class RoomConfigPanel extends GridPane {
         this.onColorChange = consumer;
     }
     
-    // Renamed from getWidth() to getRoomWidth() to avoid final method override
     public double getRoomWidth() {
         try {
             return Double.parseDouble(widthField.getText());
@@ -166,7 +165,6 @@ public class RoomConfigPanel extends GridPane {
         }
     }
     
-    // Renamed from getHeight() to getRoomHeight() to avoid final method override
     public double getRoomHeight() {
         try {
             return Double.parseDouble(heightField.getText());
