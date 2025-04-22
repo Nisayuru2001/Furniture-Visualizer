@@ -16,7 +16,7 @@ A Java desktop application for furniture designers to create and visualize furni
 - Java 17 or higher
 - Maven 3.6 or higher
 - JavaFX 17
-- SQLite database
+- SQLite database...
 
 ## Project Structure
 
