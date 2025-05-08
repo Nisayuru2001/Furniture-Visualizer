@@ -9,99 +9,162 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Circle?>
 
-<BorderPane styleClass="main-container"
+<BorderPane styleClass="luxury-container"
       xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.furnituredesign.controllers.LoginController">
     
     <center>
-        <HBox alignment="CENTER" styleClass="login-content">
-            <!-- Left side with decorative image/brand -->
-            <StackPane styleClass="brand-container">
-                <VBox alignment="CENTER" spacing="15">
-                    <!-- Add a decorative furniture icon/shape -->
-                    <StackPane>
-                        <Rectangle width="80" height="80" arcWidth="15" arcHeight="15" styleClass="accent-element" opacity="0.8"/>
-                        <Text styleClass="accent-text" text="FD" style="-fx-font-size: 40px; -fx-font-weight: bold;" />
-                    </StackPane>
-                    
-                    <Text styleClass="brand-name" text="Furniture">
-                        <font>
-                            <Font name="System Bold" size="52.0" />
-                        </font>
-                    </Text>
-                    <Text styleClass="brand-tagline" text="Designer">
-                        <font>
-                            <Font name="System Italic" size="36.0" />
-                        </font>
-                    </Text>
-                    
-                    <!-- Decorative elements -->
-                    <VBox spacing="4" alignment="CENTER" translateY="60">
-                        <Line startX="0" endX="120" styleClass="accent-element" opacity="0.6"/>
-                        <Line startX="20" endX="100" styleClass="accent-element" opacity="0.6"/>
-                        <Line startX="40" endX="80" styleClass="accent-element" opacity="0.6"/>
+        <StackPane>
+            <!-- Main Content Container - Adjusted for better window fitting -->
+            <HBox alignment="CENTER" styleClass="premium-login-content">
+                <!-- Left side with brand identity -->
+                <StackPane styleClass="luxury-brand-container">
+                    <VBox alignment="CENTER" spacing="20">
+                        <!-- Premium Logo Design -->
+                        <StackPane styleClass="logo-container">
+                            <Circle radius="45" styleClass="logo-circle-outer"/>
+                            <Circle radius="40" styleClass="logo-circle-middle"/>
+                            <Circle radius="30" styleClass="logo-circle-inner"/>
+                            <Text styleClass="logo-text" text="FD">
+                                <font>
+                                    <Font name="Perpetua Titling MT Bold" size="42.0" />
+                                </font>
+                            </Text>
+                        </StackPane>
+                        
+                        <VBox alignment="CENTER" spacing="6">
+                            <Text styleClass="luxury-brand-name" text="FURNITURE">
+                                <font>
+                                    <Font name="Perpetua Titling MT Bold" size="38.0" />
+                                </font>
+                            </Text>
+                            <Text styleClass="luxury-brand-separator" text="•  •  •">
+                                <font>
+                                    <Font name="Georgia" size="18.0" />
+                                </font>
+                            </Text>
+                            <Text styleClass="luxury-brand-tagline" text="DESIGNER">
+                                <font>
+                                    <Font name="Georgia Italic" size="32.0" />
+                                </font>
+                            </Text>
+                            <Text styleClass="luxury-brand-subtitle" text="PRO EDITION">
+                                <font>
+                                    <Font name="Perpetua Titling MT" size="12.0" />
+                                </font>
+                            </Text>
+                        </VBox>
+                        
+                        <!-- Elegant decorative elements -->
+                        <VBox alignment="CENTER" spacing="12" styleClass="decorative-accent">
+                            <HBox alignment="CENTER" spacing="12">
+                                <Line startX="0" endX="60" styleClass="gold-line"/>
+                                <Circle radius="3" styleClass="gold-dot"/>
+                                <Line startX="0" endX="60" styleClass="gold-line"/>
+                            </HBox>
+                            <Text styleClass="luxury-brand-slogan" text="Exquisite Spaces. Precise Design.">
+                                <font>
+                                    <Font name="Georgia Italic" size="14.0" />
+                                </font>
+                            </Text>
+                        </VBox>
                     </VBox>
-                </VBox>
-            </StackPane>
-            
-            <!-- Right side with login form -->
-            <VBox alignment="CENTER" spacing="25" styleClass="login-form-container">
-                <Text styleClass="login-title" text="Welcome">
-                    <font>
-                        <Font name="System Bold" size="30.0" />
-                    </font>
-                </Text>
-                <Text styleClass="login-subtitle" text="Sign in to access your workspace">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                </Text>
+                </StackPane>
                 
-                <VBox spacing="18" maxWidth="320">
-                    <Label text="Username" styleClass="field-label">
-                        <font>
-                            <Font size="13.0" />
-                        </font>
-                    </Label>
-                    <TextField fx:id="usernameField" promptText="Enter your username" styleClass="login-field"/>
-                    <Label text="Password" styleClass="field-label">
-                        <font>
-                            <Font size="13.0" />
-                        </font>
-                    </Label>
-                    <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="login-field"/>
-                    <HBox alignment="CENTER_RIGHT" spacing="10">
-                        <Label fx:id="forgotPasswordLabel" text="Forgot Password?" styleClass="forgot-password" 
-                               style="-fx-text-fill: #7D5A4F; -fx-underline: true; -fx-cursor: hand;">
+                <!-- Right side with premium login form -->
+                <VBox styleClass="premium-login-form-container">
+                    <VBox alignment="CENTER" spacing="4">
+                        <Text styleClass="premium-welcome-title" text="Welcome">
                             <font>
-                                <Font size="13.0" />
+                                <Font name="Georgia" size="34.0" />
                             </font>
-                        </Label>
+                        </Text>
+                        <Text styleClass="premium-welcome-subtitle" text="Please sign in to continue">
+                            <font>
+                                <Font name="Georgia" size="14.0" />
+                            </font>
+                        </Text>
+                    </VBox>
+                    
+                    <VBox styleClass="premium-form-fields" spacing="24">
+                        <VBox spacing="10">
+                            <Label text="USERNAME" styleClass="premium-field-label">
+                                <font>
+                                    <Font name="Perpetua Titling MT Bold" size="12.0" />
+                                </font>
+                            </Label>
+                            <StackPane styleClass="premium-field-container">
+                                <TextField fx:id="usernameField" promptText="Enter your username" styleClass="premium-field"/>
+                            </StackPane>
+                        </VBox>
+                        
+                        <VBox spacing="10">
+                            <Label text="PASSWORD" styleClass="premium-field-label">
+                                <font>
+                                    <Font name="Perpetua Titling MT Bold" size="12.0" />
+                                </font>
+                            </Label>
+                            <StackPane styleClass="premium-field-container">
+                                <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="premium-field"/>
+                            </StackPane>
+                        </VBox>
+                        
+                        <HBox alignment="CENTER_RIGHT">
+                            <Label fx:id="forgotPasswordLabel" text="Forgot Password?" styleClass="premium-forgot-password">
+                                <font>
+                                    <Font name="Georgia Italic" size="13.0" />
+                                </font>
+                            </Label>
+                        </HBox>
+                        
+                        <StackPane styleClass="premium-button-container">
+                            <Rectangle arcWidth="10" arcHeight="10" styleClass="button-shadow" width="300" height="40"/>
+                            <Button fx:id="loginButton" text="SIGN IN" onAction="#handleLogin" 
+                                styleClass="premium-login-button" maxWidth="Infinity">
+                                <font>
+                                    <Font name="Perpetua Titling MT Bold" size="14.0" />
+                                </font>
+                            </Button>
+                        </StackPane>
+                    </VBox>
+                    
+                    <HBox alignment="CENTER" styleClass="premium-error-container">
+                        <Label fx:id="errorLabel" styleClass="premium-error-label"/>
                     </HBox>
-                    <Button fx:id="loginButton" text="SIGN IN" onAction="#handleLogin" 
-                            styleClass="login-button" maxWidth="Infinity">
-                        <font>
-                            <Font name="System Bold" size="15.0" />
-                        </font>
-                    </Button>
+                    
+                    <!-- Elegant footer section -->
+                    <HBox alignment="CENTER" styleClass="premium-form-footer">
+                        <VBox alignment="CENTER" spacing="8">
+                            <HBox alignment="CENTER" spacing="10">
+                                <Line startX="0" endX="15" styleClass="gold-line" opacity="0.6"/>
+                                <Text styleClass="premium-footer-text" text="VERSION 2.0">
+                                    <font>
+                                        <Font name="Perpetua Titling MT" size="10.0" />
+                                    </font>
+                                </Text>
+                                <Line startX="0" endX="15" styleClass="gold-line" opacity="0.6"/>
+                            </HBox>
+                            <Text styleClass="premium-copyright-text" text="CRAFTED WITH PRECISION">
+                                <font>
+                                    <Font name="Perpetua Titling MT" size="8.0" />
+                                </font>
+                            </Text>
+                        </VBox>
+                    </HBox>
                 </VBox>
-                
-                <Label fx:id="errorLabel" styleClass="error-label"/>
-                
-                <!-- Version info -->
-                <Text styleClass="login-subtitle" text="Version 2.0" opacity="0.7">
-                    <font>
-                        <Font size="12.0" />
-                    </font>
-                </Text>
-            </VBox>
-        </HBox>
+            </HBox>
+        </StackPane>
     </center>
     
     <bottom>
-        <HBox alignment="CENTER" styleClass="footer">
-            <Text text="© 2025 Furniture Designer Pro. All rights reserved." styleClass="footer-text" />
+        <HBox alignment="CENTER" styleClass="premium-main-footer">
+            <Text text="© 2025 FURNITURE DESIGNER PRO. ALL RIGHTS RESERVED." styleClass="premium-main-footer-text">
+                <font>
+                    <Font name="Perpetua Titling MT" size="10.0" />
+                </font>
+            </Text>
         </HBox>
     </bottom>
 </BorderPane>
