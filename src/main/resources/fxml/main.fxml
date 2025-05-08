@@ -2,148 +2,369 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.SubScene?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Line?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="com.furniture.visualizer.controller.MainController"
-            styleClass="main-window">
+<BorderPane styleClass="dashboard-container" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.furnituredesign.controllers.MainController">
     
     <top>
-        <VBox spacing="5">
-            <padding>
-                <Insets top="10.0" right="10.0" bottom="5.0" left="10.0"/>
-            </padding>
-            
-            <HBox spacing="10.0" alignment="CENTER_LEFT" styleClass="main-toolbar">
-                <Label text="Furniture Visualizer" styleClass="header-label">
-                    <font>
-                        <Font name="System Bold" size="18.0"/>
-                    </font>
-                </Label>
-                
-                <Region HBox.hgrow="ALWAYS" />
-                
-                <HBox spacing="5" styleClass="toggle-container">
-                    <ToggleButton fx:id="view2DToggle" text="2D View" selected="true"/>
-                    <ToggleButton fx:id="view3DToggle" text="3D View"/>
+        <VBox styleClass="header-section">
+            <!-- Top navigation bar -->
+            <HBox styleClass="top-nav-bar">
+                <HBox styleClass="logo-container">
+                    <Text styleClass="app-logo-text" text="FURNITURE DESIGNER PRO">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Text>
                 </HBox>
                 
-                <Button text="Exit" onAction="#handleExit" styleClass="exit-button"/>
+                <MenuBar styleClass="main-menu-bar">
+                    <Menu text="File">
+                        <MenuItem text="New Design" onAction="#handleNewDesign"/>
+                        <MenuItem text="Save Design" onAction="#handleSaveDesign"/>
+                        <MenuItem text="Load Design" onAction="#handleLoadDesign"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Exit" onAction="#handleExit"/>
+                    </Menu>
+                    <Menu text="View">
+                        <MenuItem text="2D View" onAction="#handle2DView"/>
+                        <MenuItem text="3D View" onAction="#handle3DView"/>
+                    </Menu>
+                    <Menu text="Templates">
+                        <Menu text="Room Templates">
+                            <MenuItem text="Living Room" onAction="#handleLivingRoomTemplate"/>
+                            <MenuItem text="Bedroom" onAction="#handleBedroomTemplate"/>
+                            <MenuItem text="Kitchen" onAction="#handleKitchenTemplate"/>
+                            <MenuItem text="Office" onAction="#handleOfficeTemplate"/>
+                            <MenuItem text="Dining Room" onAction="#handleDiningRoomTemplate"/>
+                        </Menu>
+                        <Menu text="Furniture Presets">
+                            <MenuItem text="Living Room Set" onAction="#handleLivingRoomPreset"/>
+                            <MenuItem text="Bedroom Set" onAction="#handleBedroomPreset"/>
+                            <MenuItem text="Office Set" onAction="#handleOfficePreset"/>
+                            <MenuItem text="Dining Set" onAction="#handleDiningPreset"/>
+                            <MenuItem text="Kitchen Set" onAction="#handleKitchenPreset"/>
+                        </Menu>
+                    </Menu>
+                    <Menu text="Tools">
+                        <MenuItem text="Analyze Design" onAction="#handleAnalyzeDesign"/>
+                        <MenuItem text="Apply Shading" onAction="#handleApplyShading"/>
+                        <MenuItem text="Reset View" onAction="#handleResetView"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Export to OBJ" onAction="#handleExportToOBJ"/>
+                        <MenuItem text="Calculate Cost" onAction="#handleCalculateCost"/>
+                    </Menu>
+                    <Menu text="Help">
+                        <MenuItem text="About"/>
+                        <MenuItem text="User Guide"/>
+                    </Menu>
+                </MenuBar>
+                
+                <HBox styleClass="view-toggle-container" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                    <ToggleButton fx:id="toggle2DView" styleClass="view-toggle-button" text="2D View">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </ToggleButton>
+                    <ToggleButton fx:id="toggle3DView" styleClass="view-toggle-button" text="3D View">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </ToggleButton>
+                </HBox>
             </HBox>
             
-            <Separator />
+            <!-- Optional toolbar for quick access -->
+            <HBox styleClass="toolbar" spacing="10" alignment="CENTER_LEFT">
+                <padding>
+                    <Insets top="6" right="25" bottom="6" left="25" />
+                </padding>
+                <Button text="New" styleClass="toolbar-button"/>
+                <Button text="Save" styleClass="toolbar-button"/>
+                <Button text="Open" styleClass="toolbar-button"/>
+                <Separator orientation="VERTICAL" />
+                <Button text="Undo" styleClass="toolbar-button"/>
+                <Button text="Redo" styleClass="toolbar-button"/>
+            </HBox>
         </VBox>
     </top>
     
+    <left>
+        <VBox styleClass="sidebar-container">
+            <ScrollPane fitToWidth="true" styleClass="sidebar-scroll-pane" VBox.vgrow="ALWAYS">
+                <VBox styleClass="sidebar-section">
+                    <Label styleClass="sidebar-header" text="Room Settings">
+                        <font>
+                            <Font name="System Bold" size="16.0" />
+                        </font>
+                    </Label>
+                    
+                    <VBox styleClass="form-group">
+                        <Label text="Room Dimensions" styleClass="control-label">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <HBox spacing="10" styleClass="dimension-inputs">
+                            <VBox styleClass="input-group">
+                                <Label text="Width (m)" styleClass="input-label">
+                                    <font>
+                                        <Font size="12.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="roomWidthField" promptText="Width" styleClass="dimension-field"/>
+                            </VBox>
+                            <VBox styleClass="input-group">
+                                <Label text="Length (m)" styleClass="input-label">
+                                    <font>
+                                        <Font size="12.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="roomLengthField" promptText="Length" styleClass="dimension-field"/>
+                            </VBox>
+                            <VBox styleClass="input-group">
+                                <Label text="Height (m)" styleClass="input-label">
+                                    <font>
+                                        <Font size="12.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="roomHeightField" promptText="Height" styleClass="dimension-field"/>
+                            </VBox>
+                        </HBox>
+                        <Button text="CREATE ROOM" onAction="#handleCreateRoom" styleClass="create-room-button">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Button>
+                    </VBox>
+                    
+                    <Separator styleClass="section-separator"/>
+                    
+                    <VBox styleClass="form-group">
+                        <Label text="Materials &amp; Colors" styleClass="control-label">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <HBox spacing="15">
+                            <VBox styleClass="color-group">
+                                <Label text="Wall Color" styleClass="color-label">
+                                    <font>
+                                        <Font size="12.0" />
+                                    </font>
+                                </Label>
+                                <ColorPicker fx:id="wallColorPicker" styleClass="color-picker"/>
+                            </VBox>
+                            <VBox styleClass="color-group">
+                                <Label text="Floor Color" styleClass="color-label">
+                                    <font>
+                                        <Font size="12.0" />
+                                    </font>
+                                </Label>
+                                <ColorPicker fx:id="floorColorPicker" styleClass="color-picker"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                    
+                    <Separator styleClass="section-separator"/>
+                    
+                    <VBox styleClass="form-group">
+                        <Label text="Add Furniture" styleClass="control-label">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <ComboBox fx:id="furnitureTypeCombo" promptText="Select furniture type" styleClass="furniture-combo"/>
+                        <HBox spacing="10" styleClass="furniture-color-container">
+                            <Label text="Furniture Color:" styleClass="color-label">
+                                <font>
+                                    <Font size="12.0" />
+                                </font>
+                            </Label>
+                            <ColorPicker fx:id="furnitureColorPicker" styleClass="color-picker"/>
+                        </HBox>
+                        <Button text="ADD TO ROOM" onAction="#handleAddFurniture" styleClass="add-furniture-button">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Button>
+                    </VBox>
+                    
+                    <Separator styleClass="section-separator"/>
+                    
+                    <VBox styleClass="form-group" VBox.vgrow="ALWAYS">
+                        <Label text="Furniture List" styleClass="control-label">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label text="Select an item to edit its color" styleClass="instruction-label">
+                            <font>
+                                <Font size="12.0" />
+                            </font>
+                        </Label>
+                        <ListView fx:id="furnitureListView" styleClass="furniture-list" VBox.vgrow="ALWAYS"/>
+                        <HBox spacing="10">
+                            <Button text="REMOVE SELECTED" onAction="#handleRemoveFurniture" styleClass="remove-button" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                <font>
+                                    <Font name="System Bold" size="13.0" />
+                                </font>
+                            </Button>
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Quick stats panel -->
+                    <VBox styleClass="stats-panel" spacing="8">
+                        <padding>
+                            <Insets top="15" right="0" bottom="5" left="0" />
+                        </padding>
+                        <Label text="Room Statistics" styleClass="control-label">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <GridPane hgap="10" vgap="5">
+                            <Label text="Total Area:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="stats-label"/>
+                            <Label text="--" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="stats-value"/>
+                            
+                            <Label text="Furniture Count:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="stats-label"/>
+                            <Label text="--" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="stats-value"/>
+                            
+                            <Label text="Free Space:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="stats-label"/>
+                            <Label text="--" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="stats-value"/>
+                        </GridPane>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </left>
+    
     <center>
-        <SplitPane dividerPositions="0.25, 0.75">
-            <!-- Left panel - Design list & room config -->
-            <VBox spacing="10" styleClass="side-panel">
-                <padding>
-                    <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
-                </padding>
-                
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Label text="Designs" styleClass="panel-header"/>
-                    <Region HBox.hgrow="ALWAYS" />
-                    <Button text="New" onAction="#handleNewDesign" styleClass="small-button"/>
-                    <Button text="Save" onAction="#handleSaveDesign" styleClass="small-button"/>
-                    <Button text="Delete" onAction="#handleDeleteDesign" styleClass="small-button"/>
+        <VBox styleClass="design-area-container">
+            <TitledPane text="Design Canvas" expanded="true" styleClass="canvas-container" VBox.vgrow="ALWAYS">
+                <graphic>
+                    <Label text="Design Canvas" styleClass="canvas-title">
+                        <font>
+                            <Font name="System Bold" size="14.0" />
+                        </font>
+                    </Label>
+                </graphic>
+                <StackPane styleClass="canvas-stack">
+                    <Canvas fx:id="designCanvas" width="800" height="600" StackPane.alignment="CENTER"/>
+                    <SubScene fx:id="room3DSubScene" width="800" height="600" visible="false" StackPane.alignment="CENTER">
+                        <root>
+                            <Group />
+                        </root>
+                    </SubScene>
+                    
+                    <!-- 3D View Controls Panel - only visible in 3D mode -->
+                    <VBox styleClass="view-controls-panel" StackPane.alignment="TOP_RIGHT" visible="${toggle3DView.selected}">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10" />
+                        </padding>
+                        <VBox styleClass="control-group" spacing="5">
+                            <Label text="Zoom" styleClass="controls-label">
+                                <font>
+                                    <Font name="System Bold" size="12.0" />
+                                </font>
+                            </Label>
+                            <HBox spacing="5">
+                                <Button fx:id="zoomInBtn" text="+" styleClass="control-button"/>
+                                <Button fx:id="zoomOutBtn" text="-" styleClass="control-button"/>
+                            </HBox>
+                        </VBox>
+                        
+                        <VBox styleClass="control-group" spacing="5">
+                            <Label text="Rotation" styleClass="controls-label">
+                                <font>
+                                    <Font name="System Bold" size="12.0" />
+                                </font>
+                            </Label>
+                            <HBox spacing="5">
+                                <Button fx:id="rotateLeftBtn" text="⟲" styleClass="control-button"/>
+                                <Button fx:id="rotateRightBtn" text="⟳" styleClass="control-button"/>
+                                <Button fx:id="rotateTiltBtn" text="↕" styleClass="control-button"/>
+                            </HBox>
+                        </VBox>
+                        
+                        <VBox styleClass="control-group" spacing="5">
+                            <Label text="Options" styleClass="controls-label">
+                                <font>
+                                    <Font name="System Bold" size="12.0" />
+                                </font>
+                            </Label>
+                            <HBox spacing="5">
+                                <ToggleButton fx:id="showLabelsBtn" text="Labels (2D Only)" styleClass="control-toggle-disabled" selected="false" disable="true"/>
+                                <Button fx:id="rotateResetBtn" text="Reset" styleClass="control-button"/>
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                </StackPane>
+            </TitledPane>
+            
+            <HBox styleClass="action-buttons-container" alignment="CENTER_RIGHT" spacing="15">
+                <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                    <Label fx:id="statusLabel" styleClass="status-bar-label" text="Status: Ready">
+                        <font>
+                            <Font name="System Bold" size="12.0" />
+                        </font>
+                    </Label>
                 </HBox>
                 
-                <ListView fx:id="designListView" VBox.vgrow="ALWAYS" styleClass="designs-list-view"/>
-                
-                <TitledPane text="Room Configuration" expanded="true" styleClass="config-pane">
-                    <VBox fx:id="roomConfigContainer" spacing="8">
-                        <HBox spacing="5">
-                            <Label text="Width:" />
-                            <TextField fx:id="roomWidthField" promptText="Width (m)" prefWidth="80" />
-                            <Label text="Length:" />
-                            <TextField fx:id="roomLengthField" promptText="Length (m)" prefWidth="80" />
-                        </HBox>
-                        
-                        <HBox spacing="5">
-                            <Label text="Height:" />
-                            <TextField fx:id="roomHeightField" promptText="Height (m)" prefWidth="80" />
-                            <Label text="Shape:" />
-                            <ComboBox fx:id="roomShapeComboBox" prefWidth="80" />
-                        </HBox>
-                        
-                        <Label text="Room Color:" />
-                        <HBox spacing="5" alignment="CENTER_LEFT">
-                            <Label text="Wall:" />
-                            <ColorPicker fx:id="wallColorPicker" prefWidth="100" />
-                            <Label text="Floor:" />
-                            <ColorPicker fx:id="floorColorPicker" prefWidth="100" />
-                        </HBox>
-                    </VBox>
-                </TitledPane>
-            </VBox>
-            
-            <!-- Center panel - Visualization area -->
-            <StackPane fx:id="visualizationPane" styleClass="visualization-pane">
-                <!-- Visualization will be added here dynamically -->
-            </StackPane>
-            
-            <!-- Right panel - Design details & furniture list -->
-            <VBox spacing="10" styleClass="side-panel">
-                <padding>
-                    <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
-                </padding>
-                
-                <TitledPane text="Design Details" expanded="true" styleClass="config-pane">
-                    <VBox spacing="5">
-                        <Label text="Name" styleClass="form-label"/>
-                        <TextField fx:id="nameField"/>
-                        
-                        <Label text="Description" styleClass="form-label"/>
-                        <TextArea fx:id="descriptionField" prefHeight="60"/>
-                        
-                        <Label text="Furniture Type" styleClass="form-label"/>
-                        <ComboBox fx:id="typeComboBox" maxWidth="Infinity"/>
-                        
-                        <Label text="Material" styleClass="form-label"/>
-                        <ComboBox fx:id="materialComboBox" maxWidth="Infinity"/>
-                    </VBox>
-                </TitledPane>
-                
-                <TitledPane text="Visualization Options" expanded="true" styleClass="config-pane">
-                    <VBox spacing="5">
-                        <CheckBox fx:id="showGridCheckbox" text="Show Grid"/>
-                        <CheckBox fx:id="showDimensionsCheckbox" text="Show Dimensions"/>
-                        <CheckBox fx:id="showLabelsCheckbox" text="Show Labels"/>
-                        
-                        <Separator/>
-                        
-                        <Label text="Design Manipulation" styleClass="sub-header"/>
-                        <Button text="Scale Design" onAction="#handleScaleDesign" styleClass="action-button"/>
-                        <Button text="Change Color" onAction="#handleChangeColor" styleClass="action-button"/>
-                        <Button text="Add Shade" onAction="#handleAddShade" styleClass="action-button"/>
-                    </VBox>
-                </TitledPane>
-                
-                <Label text="Furniture Items" styleClass="panel-header"/>
-                
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Button text="Add" onAction="#handleAddFurniture" styleClass="small-button"/>
-                    <Button text="Edit" onAction="#handleEditFurniture" styleClass="small-button"/>
-                    <Button text="Delete" onAction="#handleDeleteFurniture" styleClass="small-button"/>
-                </HBox>
-                
-                <ListView fx:id="furnitureListView" VBox.vgrow="ALWAYS" styleClass="furniture-list-view"/>
-            </VBox>
-        </SplitPane>
+                <Button text="ANALYZE DESIGN" onAction="#handleAnalyzeDesign" styleClass="action-button analyze-button">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+                <Button text="APPLY SHADING" onAction="#handleApplyShading" styleClass="action-button">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+                <Button text="RESET VIEW" onAction="#handleResetView" styleClass="action-button">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
     </center>
     
     <bottom>
-        <HBox alignment="CENTER_RIGHT" styleClass="statusbar">
-            <padding>
-                <Insets top="5.0" right="10.0" bottom="5.0" left="10.0"/>
-            </padding>
-            <Label text="Furniture Visualizer - v1.0.0" styleClass="status-label"/>
-        </HBox>
+        <VBox>
+            <!-- Optional breadcrumb or location indicator -->
+            <HBox styleClass="breadcrumb-container" alignment="CENTER_LEFT">
+                <padding>
+                    <Insets top="6" right="25" bottom="6" left="25" />
+                </padding>
+                <Label text="Home > New Design" styleClass="breadcrumb-text"/>
+            </HBox>
+            
+            <!-- Footer -->
+            <HBox styleClass="footer-container" alignment="CENTER_LEFT">
+                <Label text="© 2025 Furniture Designer Pro" styleClass="footer-text">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <HBox spacing="15">
+                    <Label text="Version 2.0" styleClass="version-text">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                </HBox>
+            </HBox>
+        </VBox>
     </bottom>
-    
 </BorderPane>
