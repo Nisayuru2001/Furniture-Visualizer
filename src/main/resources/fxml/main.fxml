@@ -31,7 +31,7 @@
                     <Menu text="File">
                         <MenuItem text="New Design" onAction="#handleNewDesign"/>
                         <MenuItem text="Save Design" onAction="#handleSaveDesign"/>
-                        <MenuItem text="Load Design" onAction="#handleLoadDesign"/>
+                        <MenuItem text="Refresh Designs" onAction="#refreshSavedDesignsList"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Exit" onAction="#handleExit"/>
                     </Menu>
@@ -64,8 +64,8 @@
                         <MenuItem text="Calculate Cost" onAction="#handleCalculateCost"/>
                     </Menu>
                     <Menu text="Help">
-                        <MenuItem text="About"/>
-                        <MenuItem text="User Guide"/>
+                        <MenuItem text="About" onAction="#handleAbout"/>
+                        <MenuItem text="User Guide" onAction="#handleUserGuide"/>
                     </Menu>
                 </MenuBar>
                 
@@ -84,17 +84,7 @@
             </HBox>
             
             <!-- Optional toolbar for quick access -->
-            <HBox styleClass="toolbar" spacing="10" alignment="CENTER_LEFT">
-                <padding>
-                    <Insets top="6" right="25" bottom="6" left="25" />
-                </padding>
-                <Button text="New" styleClass="toolbar-button"/>
-                <Button text="Save" styleClass="toolbar-button"/>
-                <Button text="Open" styleClass="toolbar-button"/>
-                <Separator orientation="VERTICAL" />
-                <Button text="Undo" styleClass="toolbar-button"/>
-                <Button text="Redo" styleClass="toolbar-button"/>
-            </HBox>
+      
         </VBox>
     </top>
     
@@ -112,6 +102,11 @@
                         <Label text="Room Dimensions" styleClass="control-label">
                             <font>
                                 <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label text="You can update dimensions at any time" styleClass="instruction-label">
+                            <font>
+                                <Font size="12.0" />
                             </font>
                         </Label>
                         <HBox spacing="10" styleClass="dimension-inputs">
@@ -140,7 +135,7 @@
                                 <TextField fx:id="roomHeightField" promptText="Height" styleClass="dimension-field"/>
                             </VBox>
                         </HBox>
-                        <Button text="CREATE ROOM" onAction="#handleCreateRoom" styleClass="create-room-button">
+                        <Button text="CREATE/UPDATE ROOM" onAction="#handleCreateRoom" styleClass="create-room-button">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
@@ -215,6 +210,24 @@
                         <ListView fx:id="furnitureListView" styleClass="furniture-list" VBox.vgrow="ALWAYS"/>
                         <HBox spacing="10">
                             <Button text="REMOVE SELECTED" onAction="#handleRemoveFurniture" styleClass="remove-button" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                <font>
+                                    <Font name="System Bold" size="13.0" />
+                                </font>
+                            </Button>
+                        </HBox>
+                    </VBox>
+                    
+                    <Separator styleClass="section-separator"/>
+                    
+                    <VBox styleClass="form-group" VBox.vgrow="ALWAYS">
+                        <Label text="Saved Designs" styleClass="control-label">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <ListView fx:id="savedDesignsListView" styleClass="designs-list" VBox.vgrow="ALWAYS"/>
+                        <HBox spacing="10">
+                            <Button text="LOAD SELECTED" onAction="#handleLoadSelectedDesign" styleClass="load-button" HBox.hgrow="ALWAYS" maxWidth="Infinity">
                                 <font>
                                     <Font name="System Bold" size="13.0" />
                                 </font>

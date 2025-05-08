@@ -46,6 +46,9 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
 import javafx.scene.shape.Shape3D;
 
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
+
 public class MainController {
     @FXML
     private TextField roomWidthField;
@@ -73,6 +76,8 @@ public class MainController {
     private ToggleButton toggle3DView;
     @FXML
     private Label statusLabel;
+    @FXML
+    private ListView<String> savedDesignsListView;
     
     // New UI controls for 3D view manipulation
     @FXML
@@ -111,9 +116,9 @@ public class MainController {
         furnitureTypeCombo.getItems().addAll(
                 "Chair", "Table", "Sofa", "Bed", "Cabinet", "BookShelf");
 
-        // Set Default Colors
-        wallColorPicker.setValue(Color.WHITE);
-        floorColorPicker.setValue(Color.LIGHTGRAY);
+        // Set Default Colors with a brown theme
+        wallColorPicker.setValue(Color.web("#F7F3F0")); // Light cream wall color
+        floorColorPicker.setValue(Color.web("#9D7B6D")); // Medium brown floor
 
         // Add listener for floor color change
         floorColorPicker.setOnAction(e -> {
@@ -125,10 +130,27 @@ public class MainController {
                 redraw();
             }
         });
+        
+        // Add listener for wall color change
+        wallColorPicker.setOnAction(e -> {
+            if (currentRoom != null) {
+                currentRoom.setWallColor(wallColorPicker.getValue().toString());
+                if (is3DView) {
+                    build3DRoomScene();
+                }
+                redraw();
+            }
+        });
 
         // Set up List
         furnitureListView.setMaxHeight(Double.MAX_VALUE);
         furnitureListView.setMaxWidth(Double.MAX_VALUE);
+        
+        // Initialize saved designs list
+        refreshSavedDesignsList();
+        
+        // Setup room dimension listeners
+        setupRoomDimensionListeners();
         
         // Add selection listener to update color picker when furniture is selected
         furnitureListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -359,24 +381,100 @@ public class MainController {
                 return;
             }
 
-            // Create new room
-            currentRoom = new Room(width, length, height);
-            furnitureList.clear();
-            furnitureListView.getItems().clear();
-
-            // Apply colors
-            currentRoom.setWallColor(wallColorPicker.getValue().toString());
-            currentRoom.setFloorColor(floorColorPicker.getValue().toString());
+            // Create new room or update existing room
+            if (currentRoom == null) {
+                // Create new room
+                currentRoom = new Room(width, length, height);
+                furnitureList.clear();
+                furnitureListView.getItems().clear();
+                
+                // Apply colors
+                currentRoom.setWallColor(wallColorPicker.getValue().toString());
+                currentRoom.setFloorColor(floorColorPicker.getValue().toString());
+                
+                showSuccess("Room created successfully!");
+                updateStatus("Room created: " + width + "m × " + length + "m × " + height + "m");
+            } else {
+                // Update existing room dimensions
+                currentRoom.setWidth(width);
+                currentRoom.setLength(length);
+                currentRoom.setHeight(height);
+                
+                // Apply colors
+                currentRoom.setWallColor(wallColorPicker.getValue().toString());
+                currentRoom.setFloorColor(floorColorPicker.getValue().toString());
+                
+                showSuccess("Room dimensions updated successfully!");
+                updateStatus("Room updated: " + width + "m × " + length + "m × " + height + "m");
+            }
 
             // Redraw the canvas
             redraw();
 
-            // Show success message
-            showSuccess("Room created successfully!");
-            updateStatus("Room created: " + width + "m × " + length + "m × " + height + "m");
         } catch (NumberFormatException e) {
             showError("Please enter valid numbers for room dimensions");
         }
+    }
+
+    // Add listeners for room dimension fields to enable real-time updates
+    private void setupRoomDimensionListeners() {
+        // Add change listeners to dimension fields for validation and real-time updates
+        roomWidthField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (currentRoom != null && !newVal.isEmpty()) {
+                try {
+                    double width = Double.parseDouble(newVal);
+                    if (width > 0) {
+                        currentRoom.setWidth(width);
+                        redraw();
+                        
+                        // Update 3D view if active
+                        if (is3DView) {
+                            build3DRoomScene();
+                        }
+                    }
+                } catch (NumberFormatException ignored) {
+                    // Ignore invalid input
+                }
+            }
+        });
+        
+        roomLengthField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (currentRoom != null && !newVal.isEmpty()) {
+                try {
+                    double length = Double.parseDouble(newVal);
+                    if (length > 0) {
+                        currentRoom.setLength(length);
+                        redraw();
+                        
+                        // Update 3D view if active
+                        if (is3DView) {
+                            build3DRoomScene();
+                        }
+                    }
+                } catch (NumberFormatException ignored) {
+                    // Ignore invalid input
+                }
+            }
+        });
+        
+        roomHeightField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (currentRoom != null && !newVal.isEmpty()) {
+                try {
+                    double height = Double.parseDouble(newVal);
+                    if (height > 0) {
+                        currentRoom.setHeight(height);
+                        redraw();
+                        
+                        // Update 3D view if active
+                        if (is3DView) {
+                            build3DRoomScene();
+                        }
+                    }
+                } catch (NumberFormatException ignored) {
+                    // Ignore invalid input
+                }
+            }
+        });
     }
 
     @FXML
@@ -438,6 +536,7 @@ public class MainController {
                 // Create a Design object
                 DesignService.Design design = new DesignService.Design(designName, currentRoom, furnitureList);
                 designService.saveDesign(design, filename);
+                refreshSavedDesignsList();
                 showSuccess("Design saved successfully!");
             } catch (IOException e) {
                 showError("Failed to save design: " + e.getMessage());
@@ -446,50 +545,41 @@ public class MainController {
     }
 
     @FXML
-    private void handleLoadDesign() {
-        List<String> savedDesigns = designService.getSavedDesigns();
-        
-        if (savedDesigns.isEmpty()) {
-            showError("No saved designs found");
+    private void handleLoadSelectedDesign() {
+        String filename = savedDesignsListView.getSelectionModel().getSelectedItem();
+        if (filename == null) {
+            showError("Please select a design to load");
             return;
         }
         
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(savedDesigns.get(0), savedDesigns);
-        dialog.setTitle("Load Design");
-        dialog.setHeaderText("Select a design to load");
-        dialog.setContentText("Design:");
-        
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            String filename = result.get();
-            try {
-                DesignService.Design design = designService.loadDesign(filename);
-                if (design != null) {
-                    currentRoom = design.getRoom();
-                    furnitureList = design.getFurniture();
-                    
-                    // Update UI fields
-                    roomWidthField.setText(String.valueOf(currentRoom.getWidth()));
-                    roomLengthField.setText(String.valueOf(currentRoom.getLength()));
-                    roomHeightField.setText(String.valueOf(currentRoom.getHeight()));
-                    
-                    try {
-                        wallColorPicker.setValue(Color.web(currentRoom.getWallColor()));
-                        floorColorPicker.setValue(Color.web(currentRoom.getFloorColor()));
-                    } catch (Exception ignored) {
-                        // Default values if colors can't be parsed
-                        wallColorPicker.setValue(Color.WHITE);
-                        floorColorPicker.setValue(Color.LIGHTGRAY);
-                    }
-                    
-                    furnitureListView.getItems().setAll(furnitureList);
-                    redraw();
-                    
-                    showSuccess("Design loaded successfully!");
+        try {
+            DesignService.Design design = designService.loadDesign(filename);
+            if (design != null) {
+                currentRoom = design.getRoom();
+                furnitureList = design.getFurniture();
+                
+                // Update UI fields
+                roomWidthField.setText(String.valueOf(currentRoom.getWidth()));
+                roomLengthField.setText(String.valueOf(currentRoom.getLength()));
+                roomHeightField.setText(String.valueOf(currentRoom.getHeight()));
+                
+                try {
+                    wallColorPicker.setValue(Color.web(currentRoom.getWallColor()));
+                    floorColorPicker.setValue(Color.web(currentRoom.getFloorColor()));
+                } catch (Exception ignored) {
+                    // Default values if colors can't be parsed
+                    wallColorPicker.setValue(Color.web("#F7F3F0"));
+                    floorColorPicker.setValue(Color.web("#9D7B6D"));
                 }
-            } catch (IOException e) {
-                showError("Failed to load design: " + e.getMessage());
+                
+                furnitureListView.getItems().setAll(furnitureList);
+                redraw();
+                
+                showSuccess("Design '" + filename + "' loaded successfully!");
+                updateStatus("Loaded design: " + filename);
             }
+        } catch (IOException e) {
+            showError("Failed to load design: " + e.getMessage());
         }
     }
 
@@ -555,9 +645,13 @@ public class MainController {
         roomWidthField.clear();
         roomLengthField.clear();
         roomHeightField.clear();
-        wallColorPicker.setValue(Color.WHITE);
-        floorColorPicker.setValue(Color.LIGHTGRAY);
+        wallColorPicker.setValue(Color.web("#F7F3F0"));
+        floorColorPicker.setValue(Color.web("#9D7B6D"));
         redraw();
+        
+        // Refresh saved designs list
+        refreshSavedDesignsList();
+        
         updateStatus("Created new design");
     }
 
@@ -1248,6 +1342,13 @@ public class MainController {
         currentRoom = Room.createLivingRoom();
         updateRoomFields();
         redraw();
+        
+        // Apply the brown theme colors to the room
+        currentRoom.setWallColor("#F7F3F0");
+        currentRoom.setFloorColor("#9D7B6D");
+        wallColorPicker.setValue(Color.web("#F7F3F0"));
+        floorColorPicker.setValue(Color.web("#9D7B6D"));
+        
         showSuccess("Living Room template applied");
     }
     
@@ -1494,5 +1595,237 @@ public class MainController {
         alert.setContentText(String.format("The estimated cost to implement this design is: $%.2f", cost));
         
         alert.showAndWait();
+    }
+
+    @FXML
+    private void refreshSavedDesignsList() {
+        List<String> savedDesigns = designService.getSavedDesigns();
+        savedDesignsListView.getItems().clear();
+        savedDesignsListView.getItems().addAll(savedDesigns);
+        updateStatus("Found " + savedDesigns.size() + " saved designs");
+    }
+
+    @FXML
+    private void handleAbout() {
+        Alert aboutDialog = new Alert(Alert.AlertType.INFORMATION);
+        aboutDialog.setTitle("About Furniture Designer Pro");
+        aboutDialog.setHeaderText(null); // Remove default header
+        
+        // Create premium styled content with app information
+        VBox content = new VBox(15);
+        content.setPadding(new Insets(25, 30, 25, 30));
+        content.setStyle("-fx-background-color: #F7F3F0;"); // Light cream background
+        
+        // App title with larger, more premium font
+        Label titleLabel = new Label("Furniture Designer Pro");
+        titleLabel.setStyle("-fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #7D5A4F;");
+        
+        // Version with subtle styling
+        Label versionLabel = new Label("Version 2.0");
+        versionLabel.setStyle("-fx-font-weight: normal; -fx-font-style: italic; -fx-text-fill: #9D7B6D;");
+        
+        // Separator for visual division
+        Separator titleSeparator = new Separator();
+        titleSeparator.setStyle("-fx-background-color: #9D7B6D;");
+        
+        // Description with improved typography
+        Label descriptionLabel = new Label(
+            "Furniture Designer Pro is a professional tool for designing and " +
+            "visualizing interior layouts. Create rooms, add furniture, and " +
+            "view your designs in both 2D and 3D."
+        );
+        descriptionLabel.setWrapText(true);
+        descriptionLabel.setStyle("-fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-size: 13px; -fx-text-fill: #333333; -fx-line-spacing: 5px;");
+        
+        // Premium section headers
+        Label featuresLabel = new Label("Key Features");
+        featuresLabel.setStyle("-fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #7D5A4F; -fx-padding: 10 0 5 0;");
+        
+        // Features with custom bullet points and improved spacing
+        VBox featuresList = new VBox(8);
+        featuresList.setPadding(new Insets(0, 0, 0, 10));
+        
+        String[] features = {
+            "2D and 3D visualization",
+            "Multiple furniture types",
+            "Room dimension customization",
+            "Save and load designs",
+            "Color customization",
+            "Design analysis"
+        };
+        
+        for (String feature : features) {
+            HBox featureRow = new HBox(10);
+            Label bulletPoint = new Label("•");
+            bulletPoint.setStyle("-fx-text-fill: #9D7B6D; -fx-font-size: 16px;");
+            
+            Label featureText = new Label(feature);
+            featureText.setStyle("-fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-size: 13px;");
+            
+            featureRow.getChildren().addAll(bulletPoint, featureText);
+            featuresList.getChildren().add(featureRow);
+        }
+        
+        // Separator before developers section
+        Separator devSeparator = new Separator();
+        devSeparator.setStyle("-fx-background-color: #9D7B6D;");
+        
+        // Developers section with premium styling
+        Label developersLabel = new Label("Development Team");
+        developersLabel.setStyle("-fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #7D5A4F; -fx-padding: 10 0 5 0;");
+        
+        VBox developersList = new VBox(8);
+        developersList.setPadding(new Insets(0, 0, 0, 10));
+        
+        String[] developers = {
+            "Murukkuwadura Mendis 10898558",
+            "Munasiri Sandaneth 10898646",
+            "Rajapaksha Rajapaksha 10899673",
+            "Wickramaarachchige Sayuranga 10899688",
+            "Weerappulli Dewmi 10899503"
+        };
+        
+        for (String developer : developers) {
+            HBox devRow = new HBox(10);
+            Label bulletPoint = new Label("•");
+            bulletPoint.setStyle("-fx-text-fill: #9D7B6D; -fx-font-size: 16px;");
+            
+            Label devText = new Label(developer);
+            devText.setStyle("-fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-size: 13px;");
+            
+            devRow.getChildren().addAll(bulletPoint, devText);
+            developersList.getChildren().add(devRow);
+        }
+        
+        // Bottom separator
+        Separator bottomSeparator = new Separator();
+        bottomSeparator.setStyle("-fx-background-color: #9D7B6D;");
+        
+        // Copyright with premium styling
+        Label copyrightLabel = new Label("© 2025 Furniture Designer Pro");
+        copyrightLabel.setStyle("-fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-size: 12px; -fx-font-style: italic; -fx-text-fill: #9D7B6D; -fx-padding: 5 0 0 0;");
+        
+        // Add all elements to content
+        content.getChildren().addAll(
+            titleLabel,
+            versionLabel,
+            titleSeparator,
+            descriptionLabel,
+            featuresLabel,
+            featuresList,
+            devSeparator,
+            developersLabel,
+            developersList,
+            bottomSeparator,
+            copyrightLabel
+        );
+        
+        // Set dialog content with premium size and styling
+        aboutDialog.getDialogPane().setContent(content);
+        aboutDialog.getDialogPane().setPrefWidth(450);
+        aboutDialog.getDialogPane().setStyle("-fx-background-color: #F7F3F0;");
+        
+        // Add buttons
+        aboutDialog.getButtonTypes().setAll(ButtonType.OK);
+        
+        // Show dialog
+        aboutDialog.showAndWait();
+    }
+    
+    @FXML
+    private void handleUserGuide() {
+        Alert userGuideDialog = new Alert(Alert.AlertType.INFORMATION);
+        userGuideDialog.setTitle("User Guide");
+        userGuideDialog.setHeaderText("Furniture Designer Pro - User Guide");
+        
+        // Create scrollable content
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setFitToWidth(true);
+        
+        VBox content = new VBox(15);
+        content.setPadding(new Insets(10, 20, 10, 20));
+        content.setPrefWidth(450);
+        
+        // Getting Started section
+        Label gettingStartedLabel = new Label("Getting Started");
+        gettingStartedLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+        
+        Label gettingStartedContent = new Label(
+            "1. Create a room using the dimensions in the sidebar\n" +
+            "2. Choose wall and floor colors\n" +
+            "3. Add furniture using the dropdown and color picker\n" +
+            "4. Save your design when finished"
+        );
+        gettingStartedContent.setWrapText(true);
+        
+        // Room Dimensions section
+        Label dimensionsLabel = new Label("Room Dimensions");
+        dimensionsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+        
+        Label dimensionsContent = new Label(
+            "Enter room dimensions in meters. You can update dimensions at any time " +
+            "by changing the values and clicking CREATE/UPDATE ROOM."
+        );
+        dimensionsContent.setWrapText(true);
+        
+        // Furniture Management section
+        Label furnitureLabel = new Label("Furniture Management");
+        furnitureLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+        
+        Label furnitureContent = new Label(
+            "• Add furniture: Select a type, choose a color, and click ADD TO ROOM\n" +
+            "• Move furniture: Click and drag items in the 2D view\n" +
+            "• Edit color: Select furniture from the list and use the color picker\n" +
+            "• Remove furniture: Select from the list and click REMOVE SELECTED"
+        );
+        furnitureContent.setWrapText(true);
+        
+        // Views section
+        Label viewsLabel = new Label("2D and 3D Views");
+        viewsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+        
+        Label viewsContent = new Label(
+            "Toggle between 2D and 3D views using the buttons in the top right.\n\n" +
+            "In 3D view:\n" +
+            "• Use the zoom buttons to move closer or further\n" +
+            "• Use rotation buttons to change viewing angle\n" +
+            "• Click RESET VIEW to return to default position\n" +
+            "• You can also use the mouse: click and drag to rotate, scroll to zoom"
+        );
+        viewsContent.setWrapText(true);
+        
+        // Saving and Loading section
+        Label savingLabel = new Label("Saving and Loading Designs");
+        savingLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+        
+        Label savingContent = new Label(
+            "• Save design: File > Save Design\n" +
+            "• View saved designs: In the Saved Designs panel\n" +
+            "• Load a design: Select from the list and click LOAD SELECTED\n" +
+            "• Refresh designs list: File > Refresh Designs"
+        );
+        savingContent.setWrapText(true);
+        
+        // Add all sections to content
+        content.getChildren().addAll(
+            gettingStartedLabel, gettingStartedContent,
+            dimensionsLabel, dimensionsContent,
+            furnitureLabel, furnitureContent,
+            viewsLabel, viewsContent,
+            savingLabel, savingContent
+        );
+        
+        scrollPane.setContent(content);
+        scrollPane.setPrefHeight(400);
+        
+        // Set dialog content
+        userGuideDialog.getDialogPane().setContent(scrollPane);
+        userGuideDialog.getDialogPane().setPrefWidth(500);
+        
+        // Add buttons
+        userGuideDialog.getButtonTypes().setAll(ButtonType.OK);
+        
+        // Show dialog
+        userGuideDialog.showAndWait();
     }
 }

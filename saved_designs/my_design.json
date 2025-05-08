@@ -1,0 +1,80 @@
+{
+  "name": "My Design",
+  "room": {
+    "width": 5.0,
+    "length": 5.0,
+    "height": 5.0,
+    "floorColor": "0xff8080ff",
+    "wallColor": "0xf7f3f0ff",
+    "ceilingColor": "#F8F8F8",
+    "floorMaterial": {
+      "name": "Wood",
+      "baseColor": "0xff8080ff",
+      "roughness": 0.7,
+      "metallic": 0.0,
+      "reflectivity": 0.1,
+      "opacity": 1.0
+    },
+    "wallMaterial": {
+      "name": "Wall",
+      "baseColor": "0xf7f3f0ff",
+      "roughness": 0.5,
+      "metallic": 0.0,
+      "reflectivity": 0.0,
+      "opacity": 1.0
+    },
+    "ceilingMaterial": {
+      "name": "Ceiling",
+      "baseColor": "#F8F8F8",
+      "roughness": 0.5,
+      "metallic": 0.0,
+      "reflectivity": 0.0,
+      "opacity": 1.0
+    },
+    "lights": [
+      {
+        "x": 2.5,
+        "y": 2.5,
+        "z": 4.8,
+        "color": "#FFFFFF",
+        "intensity": 1.0,
+        "type": "point",
+        "radius": 0.2
+      }
+    ],
+    "name": "New Room",
+    "roomType": "living_room",
+    "ambientSettings": {
+      "globalLightIntensity": 0.7,
+      "ambientOcclusion": 0.2,
+      "shadowIntensity": 0.5
+    }
+  },
+  "furniture": [
+    {
+      "type": "Cabinet",
+      "x": 375.0,
+      "y": 275.0,
+      "z": 0.0,
+      "width": 1.0,
+      "length": 0.6,
+      "height": 1.8,
+      "color": "0xb36680ff",
+      "material": {
+        "name": "Wood",
+        "baseColor": "0xb36680ff",
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "reflectivity": 0.1,
+        "opacity": 1.0
+      },
+      "modelPath": "models/cabinet.obj",
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "scale": 1.0
+    }
+  ],
+  "createdAt": "2025-05-08T10:31:26.585899",
+  "lastModified": "2025-05-08T10:31:26.586204"
+}

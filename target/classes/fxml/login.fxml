@@ -72,7 +72,8 @@
                     </Label>
                     <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="login-field"/>
                     <HBox alignment="CENTER_RIGHT" spacing="10">
-                        <Label text="Forgot Password?" styleClass="forgot-password">
+                        <Label fx:id="forgotPasswordLabel" text="Forgot Password?" styleClass="forgot-password" 
+                               style="-fx-text-fill: #7D5A4F; -fx-underline: true; -fx-cursor: hand;">
                             <font>
                                 <Font size="13.0" />
                             </font>

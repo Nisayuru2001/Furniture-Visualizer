@@ -1,0 +1,167 @@
+{
+  "name": "My Design 1",
+  "room": {
+    "width": 3.5,
+    "length": 4.0,
+    "height": 2.8,
+    "floorColor": "0xffff00ff",
+    "wallColor": "#EDF5E1",
+    "ceilingColor": "#F8F8F8",
+    "floorMaterial": {
+      "name": "Wood",
+      "baseColor": "0xffff00ff",
+      "roughness": 0.7,
+      "metallic": 0.0,
+      "reflectivity": 0.1,
+      "opacity": 1.0
+    },
+    "wallMaterial": {
+      "name": "Wall",
+      "baseColor": "#EDF5E1",
+      "roughness": 0.5,
+      "metallic": 0.0,
+      "reflectivity": 0.0,
+      "opacity": 1.0
+    },
+    "ceilingMaterial": {
+      "name": "Ceiling",
+      "baseColor": "#F8F8F8",
+      "roughness": 0.5,
+      "metallic": 0.0,
+      "reflectivity": 0.0,
+      "opacity": 1.0
+    },
+    "lights": [
+      {
+        "x": 1.75,
+        "y": 2.0,
+        "z": 2.5999999999999996,
+        "color": "#FFFFFF",
+        "intensity": 1.0,
+        "type": "point",
+        "radius": 0.2
+      },
+      {
+        "x": 1.8,
+        "y": 1.0,
+        "z": 1.0,
+        "color": "#F5F5DC",
+        "intensity": 0.8,
+        "type": "spot",
+        "radius": 0.2
+      },
+      {
+        "x": 1.75,
+        "y": 2.0,
+        "z": 2.6,
+        "color": "#F8F8FF",
+        "intensity": 0.9,
+        "type": "point",
+        "radius": 0.2
+      }
+    ],
+    "name": "Home Office",
+    "roomType": "office",
+    "ambientSettings": {
+      "globalLightIntensity": 0.7,
+      "ambientOcclusion": 0.2,
+      "shadowIntensity": 0.5
+    }
+  },
+  "furniture": [
+    {
+      "type": "desk",
+      "x": 236.8,
+      "y": 130.0,
+      "z": 0.0,
+      "width": 1.4,
+      "length": 0.7,
+      "height": 0.75,
+      "color": "#8B4513",
+      "material": {
+        "name": "Wood",
+        "baseColor": "#8B4513",
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "reflectivity": 0.1,
+        "opacity": 1.0
+      },
+      "modelPath": "models/desk.obj",
+      "rotationX": 0.0,
+      "rotationY": 180.0,
+      "rotationZ": 0.0,
+      "scale": 1.0
+    },
+    {
+      "type": "chair",
+      "x": 351.8,
+      "y": 136.6,
+      "z": 0.0,
+      "width": 0.5,
+      "length": 0.5,
+      "height": 1.0,
+      "color": "#363636",
+      "material": {
+        "name": "Fabric",
+        "baseColor": "#363636",
+        "roughness": 0.9,
+        "metallic": 0.0,
+        "reflectivity": 0.05,
+        "opacity": 1.0
+      },
+      "modelPath": "models/chair.obj",
+      "rotationX": 0.0,
+      "rotationY": 180.0,
+      "rotationZ": 0.0,
+      "scale": 1.0
+    },
+    {
+      "type": "bookshelf",
+      "x": 493.5,
+      "y": 137.0,
+      "z": 0.0,
+      "width": 1.0,
+      "length": 0.4,
+      "height": 2.0,
+      "color": "#8B4513",
+      "material": {
+        "name": "Wood",
+        "baseColor": "#8B4513",
+        "roughness": 0.7,
+        "metallic": 0.0,
+        "reflectivity": 0.1,
+        "opacity": 1.0
+      },
+      "modelPath": "models/bookshelf.obj",
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "scale": 1.0
+    },
+    {
+      "type": "plant",
+      "x": 357.0,
+      "y": 237.5,
+      "z": 0.0,
+      "width": 0.5,
+      "length": 0.5,
+      "height": 1.2,
+      "color": "#808080",
+      "material": {
+        "name": "Plant",
+        "baseColor": "#228B22",
+        "roughness": 0.5,
+        "metallic": 0.0,
+        "reflectivity": 0.0,
+        "opacity": 1.0
+      },
+      "modelPath": "models/plant.obj",
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "scale": 1.0
+    }
+  ],
+  "createdAt": "2025-05-08T11:12:07.617609",
+  "lastModified": "2025-05-08T11:12:07.618563"
+}
