@@ -164,7 +164,26 @@ public class MainController {
             }
         });
 
-
+        // Set up List
+        furnitureListView.setMaxHeight(Double.MAX_VALUE);
+        furnitureListView.setMaxWidth(Double.MAX_VALUE);
+        
+        // Initialize saved designs list
+        refreshSavedDesignsList();
+        
+        // Setup room dimension listeners
+        setupRoomDimensionListeners();
+        
+        // Add selection listener to update color picker when furniture is selected
+        furnitureListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                try {
+                    furnitureColorPicker.setValue(Color.web(newSelection.getColor()));
+                } catch (Exception ex) {
+                    furnitureColorPicker.setValue(Color.GRAY);
+                }
+            }
+        });
         
         // Add listener for furniture color changes
         furnitureColorPicker.setOnAction(e -> {
