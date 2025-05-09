@@ -154,15 +154,7 @@ public class MainController {
         });
         
         // Add listener for wall color change
-        wallColorPicker.setOnAction(e -> {
-            if (currentRoom != null) {
-                currentRoom.setWallColor(wallColorPicker.getValue().toString());
-                if (is3DView) {
-                    build3DRoomScene();
-                }
-                redraw();
-            }
-        });
+
 
         // Set up List
         furnitureListView.setMaxHeight(Double.MAX_VALUE);
