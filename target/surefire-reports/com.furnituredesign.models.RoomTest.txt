@@ -1,0 +1,39 @@
+-------------------------------------------------------------------------------
+Test set: com.furnituredesign.models.RoomTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.184 s <<< FAILURE! -- in com.furnituredesign.models.RoomTest
+com.furnituredesign.models.RoomTest.testRoomCreation -- Time elapsed: 0.077 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problems: 
+	The method getX() is undefined for the type Room
+	The method getY() is undefined for the type Room
+	The method getZ() is undefined for the type Room
+
+	at com.furnituredesign.models.RoomTest.testRoomCreation(RoomTest.java:19)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+com.furnituredesign.models.RoomTest.testRoomWallMaterial -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problems: 
+	The method getType() is undefined for the type Material
+	The method getColor() is undefined for the type Material
+
+	at com.furnituredesign.models.RoomTest.testRoomWallMaterial(RoomTest.java:82)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+com.furnituredesign.models.RoomTest.testRoomFloorMaterial -- Time elapsed: 0.005 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problems: 
+	The method setColor(String) is undefined for the type Material
+	The method getType() is undefined for the type Material
+	The method getColor() is undefined for the type Material
+
+	at com.furnituredesign.models.RoomTest.testRoomFloorMaterial(RoomTest.java:62)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
