@@ -30,6 +30,7 @@
     -fx-pref-width: 850px;
     -fx-max-width: 950px;
     -fx-min-height: 550px;
+    min-height: 550px;
 }
 
 .brand-container {
