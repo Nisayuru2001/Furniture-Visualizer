@@ -8,10 +8,6 @@
  * Light Text: #8C7B74 (Medium Brown Text)
  */
 
- .root {
-    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    -fx-background-color: #F7F3F0;
-}
 
 /* ========== LOGIN PAGE STYLING ========== */
 .main-container {
