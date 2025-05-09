@@ -46,15 +46,7 @@ public class Room {
             this.radius = 0.2;
         }
         
-        // Getters and setters
-        public double getX() { return x; }
-        public void setX(double x) { this.x = x; }
-        
-        public double getY() { return y; }
-        public void setY(double y) { this.y = y; }
-        
-        public double getZ() { return z; }
-        public void setZ(double z) { this.z = z; }
+
         
         public String getColor() { return color; }
         public void setColor(String color) { this.color = color; }
