@@ -58,10 +58,20 @@
                     <Menu text="Tools">
                         <MenuItem text="Analyze Design" onAction="#handleAnalyzeDesign"/>
                         <MenuItem text="Apply Shading" onAction="#handleApplyShading"/>
+                        <MenuItem text="Remove Shadows" onAction="#handleRemoveShadows"/>
                         <MenuItem text="Reset View" onAction="#handleResetView"/>
+                        <SeparatorMenuItem/>
+                        <Menu text="Furniture Tools">
+                            <MenuItem text="Rotate Furniture" onAction="#handleRotateFurniture"/>
+                            <MenuItem text="Align Left" onAction="#handleAlignLeft"/>
+                            <MenuItem text="Align Center" onAction="#handleAlignCenter"/>
+                            <MenuItem text="Align Right" onAction="#handleAlignRight"/>
+                            <MenuItem text="Toggle Measurement Mode" onAction="#handleMeasureMode"/>
+                        </Menu>
                         <SeparatorMenuItem/>
                         <MenuItem text="Export to OBJ" onAction="#handleExportToOBJ"/>
                         <MenuItem text="Calculate Cost" onAction="#handleCalculateCost"/>
+                        <MenuItem text="Save Snapshot" onAction="#handleSaveSnapshot"/>
                     </Menu>
                     <Menu text="Help">
                         <MenuItem text="About" onAction="#handleAbout"/>
@@ -256,6 +266,25 @@
                             <Label text="--" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="stats-value"/>
                         </GridPane>
                     </VBox>
+                    
+                    <VBox styleClass="control-group" spacing="5">
+                        <Label text="Furniture Controls" styleClass="sidebar-header" />
+                        <Button text="Add" onAction="#handleAddFurniture" styleClass="premium-button" />
+                        <Button text="Remove" onAction="#handleRemoveFurniture" styleClass="premium-button" />
+                        <Button fx:id="rotateFurnitureBtn" text="Rotate" onAction="#handleRotateFurniture" styleClass="premium-button" />
+                        <HBox spacing="5">
+                            <Button text="Align Left" onAction="#handleAlignLeft" styleClass="premium-button-small" />
+                            <Button text="Align Center" onAction="#handleAlignCenter" styleClass="premium-button-small" />
+                            <Button text="Align Right" onAction="#handleAlignRight" styleClass="premium-button-small" />
+                        </HBox>
+                    </VBox>
+
+                    <VBox styleClass="control-group" spacing="5">
+                        <Label text="Tools" styleClass="sidebar-header" />
+                        <ToggleButton fx:id="measureModeBtn" text="Measure" onAction="#handleMeasureMode" styleClass="premium-button" />
+                        <Button text="Calculate Cost" onAction="#handleCalculateCost" styleClass="premium-button" />
+                        <Button text="Save Snapshot" onAction="#handleSaveSnapshot" styleClass="premium-button" />
+                    </VBox>
                 </VBox>
             </ScrollPane>
         </VBox>
@@ -306,6 +335,7 @@
                                 <Button fx:id="rotateLeftBtn" text="⟲" styleClass="control-button"/>
                                 <Button fx:id="rotateRightBtn" text="⟳" styleClass="control-button"/>
                                 <Button fx:id="rotateTiltBtn" text="↕" styleClass="control-button"/>
+                                <Button fx:id="rotate360Btn" text="360°" styleClass="control-button"/>
                             </HBox>
                         </VBox>
                         

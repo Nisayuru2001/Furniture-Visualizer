@@ -1,0 +1,101 @@
+{
+  "furniture": [
+    {
+      "color": "0x800000ff",
+      "length": 0.5,
+      "modelPath": "models/chair.obj",
+      "scale": 1,
+      "type": "chair",
+      "rotationX": 0,
+      "rotationY": 180,
+      "rotationZ": 0,
+      "x": 285.8,
+      "width": 0.5,
+      "y": 141.6,
+      "z": 0,
+      "height": 1
+    },
+    {
+      "color": "0x0000ffff",
+      "length": 0.4,
+      "modelPath": "models/bookshelf.obj",
+      "scale": 1,
+      "type": "bookshelf",
+      "rotationX": 0,
+      "rotationY": 0,
+      "rotationZ": 0,
+      "x": 537.5,
+      "width": 1,
+      "y": 134,
+      "z": 0,
+      "height": 2
+    },
+    {
+      "color": "0x800000ff",
+      "length": 0.8,
+      "modelPath": "models/table.obj",
+      "scale": 1,
+      "type": "Table",
+      "rotationX": 0,
+      "rotationY": 0,
+      "rotationZ": 0,
+      "x": 271,
+      "width": 1.2,
+      "y": 191,
+      "z": 0,
+      "height": 0.75
+    },
+    {
+      "color": "0x4d4d4dff",
+      "length": 0.6,
+      "modelPath": "models/cabinet.obj",
+      "scale": 1,
+      "type": "Cabinet",
+      "rotationX": 0,
+      "rotationY": 0,
+      "rotationZ": 0,
+      "x": 538,
+      "width": 1,
+      "y": 273,
+      "z": 0,
+      "height": 1.8
+    },
+    {
+      "color": "0xe6b3ccff",
+      "length": 1.6,
+      "modelPath": "models/bed.obj",
+      "scale": 1,
+      "type": "Bed",
+      "rotationX": 0,
+      "rotationY": 0,
+      "rotationZ": 0,
+      "x": 273,
+      "width": 2,
+      "y": 419,
+      "z": 0,
+      "height": 0.5
+    },
+    {
+      "color": "0x331a80ff",
+      "length": 0.8,
+      "modelPath": "models/sofa.obj",
+      "scale": 1,
+      "type": "Sofa",
+      "rotationX": 0,
+      "rotationY": 0,
+      "rotationZ": 0,
+      "x": 459,
+      "width": 2,
+      "y": 435,
+      "z": 0,
+      "height": 0.9
+    }
+  ],
+  "room": {
+    "floorColor": "0xff6666ff",
+    "width": 3.5,
+    "length": 4,
+    "wallColor": "#EDF5E1",
+    "height": 2.8
+  }
+}

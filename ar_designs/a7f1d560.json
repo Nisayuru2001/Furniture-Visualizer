@@ -1,0 +1,24 @@
+{
+  "furniture": [{
+    "color": "0xb36680ff",
+    "length": 0.6,
+    "modelPath": "models/cabinet.obj",
+    "scale": 1,
+    "type": "Cabinet",
+    "rotationX": 0,
+    "rotationY": 0,
+    "rotationZ": 0,
+    "x": 375,
+    "width": 1,
+    "y": 275,
+    "z": 0,
+    "height": 1.8
+  }],
+  "room": {
+    "floorColor": "0xff8080ff",
+    "width": 5,
+    "length": 5,
+    "wallColor": "0xf7f3f0ff",
+    "height": 5
+  }
+}

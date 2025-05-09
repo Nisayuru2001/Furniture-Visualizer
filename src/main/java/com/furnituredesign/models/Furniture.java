@@ -19,13 +19,14 @@ public class Furniture {
     private double rotationY;
     private double rotationZ;
     private double scale;
+    private double rotation = 0; // Default rotation angle in degrees
     
     public Furniture(String type) {
         this.type = type;
         this.x = 0;
         this.y = 0;
         this.z = 0;
-        this.color = "#808080";
+        this.color = "#ffffff";
         this.rotationX = 0;
         this.rotationY = 0;
         this.rotationZ = 0;
@@ -331,5 +332,14 @@ public class Furniture {
     @Override
     public String toString() {
         return String.format("%s (%.2fm x %.2fm x %.2fm)", type, width, length, height);
+    }
+
+    // Getters and setters for rotation
+    public double getRotation() {
+        return rotation;
+    }
+    
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
     }
 }

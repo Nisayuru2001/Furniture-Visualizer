@@ -34,53 +34,60 @@ public class LoginController {
         forgotPasswordLabel.setOnMouseClicked(event -> handleForgotPassword());
     }
 
-    @FXML
-    private void handleLogin() {
-        try {
-            String username = usernameField.getText();
-            String password = passwordField.getText();
+   @FXML
+private void handleLogin() {
+    try {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-            if (username.isEmpty() || password.isEmpty()) {
-                errorLabel.setText("Please enter both Username and Password");
-                return;
-            }
-
-            if (authService.authenticate(username, password)) {
-                try {
-                    //  Main application
-                    URL fxmlUrl = getClass().getClassLoader().getResource("fxml/main.fxml");
-                    if (fxmlUrl == null) {
-                        throw new IOException("Could not find main.fxml");
-                    }
-
-                    FXMLLoader loader = new FXMLLoader(fxmlUrl);
-                    Parent root = loader.load();
-
-                    Stage stage = (Stage) usernameField.getScene().getWindow();
-                    Scene scene = new Scene(root);
-
-                    // Load designing parts
-                    URL cssUrl = getClass().getClassLoader().getResource("styles/main.css");
-                    if (cssUrl != null) {
-                        scene.getStylesheets().add(cssUrl.toExternalForm());
-                    }
-
-                    stage.setScene(scene);
-                    stage.setTitle("Furniture Designer - Main");
-                } catch (IOException e) {
-                    errorLabel.setText("Error loading main view: " + e.getMessage());
-                    System.err.println("Error loading FXML: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            } else {
-                errorLabel.setText("Invalid username or password");
-            }
-        } catch (Exception e) {
-            errorLabel.setText("An unexpected error occurred: " + e.getMessage());
-            System.err.println("Unexpected error: " + e.getMessage());
-            e.printStackTrace();
+        if (username.isEmpty() || password.isEmpty()) {
+            errorLabel.setText("Please enter both Username and Password");
+            return;
         }
+
+        if (authService.authenticate(username, password)) {
+            try {
+                // Make sure we're loading the correct main.fxml file
+                URL fxmlUrl = getClass().getClassLoader().getResource("fxml/main.fxml");
+                if (fxmlUrl == null) {
+                    throw new IOException("Could not find main.fxml");
+                }
+
+                FXMLLoader loader = new FXMLLoader(fxmlUrl);
+                Parent root = loader.load();
+
+                Stage stage = (Stage) usernameField.getScene().getWindow();
+                Scene scene = new Scene(root);
+
+                // Load original main.css with appended premium styles
+                URL cssUrl = getClass().getClassLoader().getResource("styles/main.css");
+                if (cssUrl != null) {
+                    scene.getStylesheets().add(cssUrl.toExternalForm());
+                    System.out.println("Main CSS loaded successfully");
+                } else {
+                    System.err.println("Could not find main.css");
+                }
+
+                stage.setScene(scene);
+                stage.setTitle("Furniture Designer Pro - Premium Edition");
+                
+                // Debug output to verify loading was successful
+                System.out.println("Main interface loaded successfully");
+                
+            } catch (IOException e) {
+                errorLabel.setText("Error loading main view: " + e.getMessage());
+                System.err.println("Error loading FXML: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            errorLabel.setText("Invalid username or password");
+        }
+    } catch (Exception e) {
+        errorLabel.setText("An unexpected error occurred: " + e.getMessage());
+        System.err.println("Unexpected error: " + e.getMessage());
+        e.printStackTrace();
     }
+}
     
     @FXML
     private void handleForgotPassword() {

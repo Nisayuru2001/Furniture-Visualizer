@@ -1,0 +1,41 @@
+# Furniture Designer export
+# Design: MyDesign
+# Date: 2025-05-08T23:21:35.707599
+
+# Room dimensions: 3.5x4.0x2.8
+# Furniture: chair
+# Position: 285.8, 141.6, 0.0
+mtllib models/chair.mtl
+o chair
+# Placeholder for actual model data
+# This would reference: models/chair.obj
+# Furniture: bookshelf
+# Position: 537.5, 134.0, 0.0
+mtllib models/bookshelf.mtl
+o bookshelf
+# Placeholder for actual model data
+# This would reference: models/bookshelf.obj
+# Furniture: Table
+# Position: 271.0, 191.0, 0.0
+mtllib models/Table.mtl
+o Table
+# Placeholder for actual model data
+# This would reference: models/table.obj
+# Furniture: Cabinet
+# Position: 538.0, 273.0, 0.0
+mtllib models/Cabinet.mtl
+o Cabinet
+# Placeholder for actual model data
+# This would reference: models/cabinet.obj
+# Furniture: Bed
+# Position: 273.0, 419.0, 0.0
+mtllib models/Bed.mtl
+o Bed
+# Placeholder for actual model data
+# This would reference: models/bed.obj
+# Furniture: Sofa
+# Position: 459.0, 435.0, 0.0
+mtllib models/Sofa.mtl
+o Sofa
+# Placeholder for actual model data
+# This would reference: models/sofa.obj
