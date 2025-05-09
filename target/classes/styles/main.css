@@ -1,16 +1,16 @@
 /* Updated Professional Design - Brown Color Palette
- * Primary: #7D5A4F (Rich Brown)
- * Secondary: #9D7B6D (Medium Brown)
- * Accent: #D6A73D (Gold)
- * Light: #F7F3F0 (Light Cream)
+ * Primary: #8B4513 (Saddle Brown)
+ * Secondary: #A0522D (Sienna)
+ * Accent: #DAA520 (Golden Rod)  
+ * Light: #FFF8DC (Cornsilk)
  * Dark: #4A332C (Dark Brown)
- * Text: #3D2F29 (Dark Brown Text)
+ * Text: #3D2F29 (Dark Brown Text) 
  * Light Text: #8C7B74 (Medium Brown Text)
  */
 
- .root {
+.root {
     -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    -fx-background-color: #F7F3F0;
+    -fx-background-color: #FFF8DC;
 }
 
 /* ========== LOGIN PAGE STYLING ========== */
@@ -20,37 +20,48 @@
 
 .login-content {
     -fx-background-color: white;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 3);
+    background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 20, 0, 0, 4);
     -fx-background-radius: 12px;
+    border-radius: 12px;
     -fx-border-radius: 12px;
     -fx-padding: 0;
+    padding: 0;
     -fx-pref-width: 850px;
     -fx-max-width: 950px;
     -fx-min-height: 550px;
 }
 
 .brand-container {
-    -fx-background-color: linear-gradient(to bottom right, #7D5A4F, #4A332C);
+    -fx-background-color: linear-gradient(to bottom right, #8B4513, #4A332C);
+    background: linear-gradient(to bottom right, #8B4513, #4A332C);
     -fx-min-width: 400px;
     -fx-pref-width: 400px;
     -fx-min-height: 550px;
     -fx-background-radius: 12px 0 0 12px;
     -fx-padding: 30px;
     -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, -2, 0);
 }
 
 .brand-name {
     -fx-font-size: 52px;
+    font-size: 52px;
     -fx-font-weight: bold;
+    font-weight: bold;
     -fx-fill: white;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 1);
+    fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 2);
 }
 
 .brand-tagline {
     -fx-font-size: 36px;
+    font-size: 36px;
     -fx-font-style: italic;
-    -fx-fill: #D6A73D;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 4, 0, 0, 1);
+    font-style: italic;
+    -fx-fill: #DAA520;
+    fill: #DAA520;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 1);
 }
 
 .login-form-container {
@@ -81,15 +92,26 @@
 
 .login-field {
     -fx-background-color: #F4F7FC;
+    background-color: #F4F7FC;
     -fx-border-color: #E1E6EF;
+    border-color: #E1E6EF;
     -fx-border-radius: 6px;
+    border-radius: 6px;
     -fx-padding: 14px;
+    padding: 14px;
     -fx-font-size: 14px;
+    font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 1);
+    -fx-transition-duration: 0.2s;
+    transition-duration: 0.2s;
 }
 
 .login-field:focused {
-    -fx-border-color: #4A6DA7;
+    -fx-border-color: #DAA520;
+    border-color: #DAA520;
     -fx-background-color: white;
+    background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(218,165,32,0.2), 6, 0, 0, 0);
 }
 
 .forgot-password {
@@ -410,7 +432,10 @@
 }
 
 .create-room-button:hover {
-    -fx-background-color: #9D7B6D;
+    -fx-background-color: derive(#7D5A4F, 10%);
+    background-color: derive(#7D5A4F, 10%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 4);
+    transition: all 0.3s ease;
 }
 
 .create-room-button:pressed {
@@ -647,16 +672,31 @@
 
 /* Basic UI controls - Global styles */
 .button {
-    -fx-background-color: #9D7B6D;
+    -fx-background-color: #8B4513;
+    background-color: #8B4513;
     -fx-text-fill: white;
+    color: white;
     -fx-font-weight: bold;
-    -fx-padding: 8px 15px;
-    -fx-background-radius: 5px;
+    font-weight: bold;
+    -fx-padding: 12px 24px;
+    padding: 12px 24px;
+    -fx-background-radius: 6px;
+    border-radius: 6px;
     -fx-cursor: hand;
+    cursor: pointer;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 1);
 }
 
 .button:hover {
-    -fx-background-color: #7D5A4F;
+    -fx-background-color: derive(#8B4513, 10%);
+    background-color: derive(#8B4513, 10%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);
+}
+
+.button:pressed {
+    -fx-background-color: derive(#8B4513, -10%);
+    background-color: derive(#8B4513, -10%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
 }
 
 .text-field, .password-field {
@@ -1195,8 +1235,10 @@
 }
 
 .create-room-button:hover {
-    -fx-background-color: #8D6E63;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 3);
+    -fx-background-color: derive(#7D5A4F, 10%);
+    background-color: derive(#7D5A4F, 10%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 4);
+    transition: all 0.3s ease;
 }
 
 .create-room-button:pressed {
@@ -1508,13 +1550,13 @@
     -fx-font-weight: bold;
     -fx-font-size: 13px;
 }
-/* ========== LUXURY PREMIUM LOGIN STYLING (OPTIMIZED FOR WINDOW SIZE) ========== */
+/* ========== LOGIN STYLING ========== */
 .root {
     -fx-font-family: "Georgia", "Times New Roman", serif;
     -fx-background-color: #0D0D0D;
 }
 
-/* Color Palette for Premium Design
+/* Color Palette for Design
  * Dark Gold: #927238
  * Rich Gold: #C0A080
  * Highlight Gold: #D4AF37
