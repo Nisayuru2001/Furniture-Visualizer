@@ -33,3 +33,16 @@ public class Design {
         this.furniture = furniture;
     }
 
+    public void addFurniture(Furniture item) {
+        furniture.add(item);
+    }
+
+    public void removeFurniture(Furniture item) {
+        furniture.remove(item);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Design: %s with %d furniture items", room, furniture.size());
+    }
+}
