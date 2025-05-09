@@ -4,7 +4,7 @@
     "length": 0.6,
     "modelPath": "models/cabinet.obj",
     "scale": 1,
-    "type": "Cabinet",
+    "type": "cabinet",
     "rotationX": 0,
     "rotationY": 0,
     "rotationZ": 0,
