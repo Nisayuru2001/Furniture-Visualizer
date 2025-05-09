@@ -74,7 +74,7 @@ java -jar target/furniture-designer-1.0-SNAPSHOT.jar
 ## Default Login
 
 - Username: admin
-- Password: admin
+- Password: password123
 
 ## Usage
 
