@@ -26,7 +26,11 @@ public class Furniture {
         this.x = 0;
         this.y = 0;
         this.z = 0;
-
+        this.color = "#ffffff";
+        this.rotationX = 0;
+        this.rotationY = 0;
+        this.rotationZ = 0;
+        this.scale = 1.0;
 
         // Set default material based on type
         switch (type.toLowerCase()) {
