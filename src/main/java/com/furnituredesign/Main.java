@@ -28,7 +28,7 @@ public class Main extends Application {
             if (mainCssUrl != null) {
                 scene.getStylesheets().add(mainCssUrl.toExternalForm());
             }
-            if (themeCssUrl != null) {
+            if (themeCssUrl != null) {      
                 scene.getStylesheets().add(themeCssUrl.toExternalForm());
             }primaryStage.setTitle("Furniture Designer");
             primaryStage.setScene(scene);
