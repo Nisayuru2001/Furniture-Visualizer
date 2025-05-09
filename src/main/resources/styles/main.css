@@ -138,7 +138,9 @@
 }
 
 /* ========== DASHBOARD STYLING ========== */
-
+.dashboard-container {
+    -fx-background-color: #F7F3F0;
+}
 
 /* Header styling */
 .header-section {
