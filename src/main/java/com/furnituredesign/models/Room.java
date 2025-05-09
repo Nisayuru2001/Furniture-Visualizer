@@ -345,5 +345,18 @@ public class Room {
         return room;
     }
     
-
+    public static Room createDiningRoom() {
+        Room room = new Room(4.0, 5.0, 2.8);
+        room.setName("Dining Room");
+        room.setRoomType("dining_room");
+        room.setFloorMaterial(Material.wood());
+        room.setWallColor("#FFF8E7");
+        
+        // Add chandelier
+        Light chandelier = new Light(2.0, 2.5, 2.0, "#FFFACD", 0.9, "point");
+        chandelier.setRadius(0.3);
+        room.addLight(chandelier);
+        
+        return room;
+    }
 }
