@@ -1708,16 +1708,16 @@ public class MainController {
     @FXML
     private void handleAbout() {
         Alert aboutDialog = new Alert(Alert.AlertType.INFORMATION);
-        aboutDialog.setTitle("About Furniture Designer Pro");
+        aboutDialog.setTitle("About Furniture Designer");
         aboutDialog.setHeaderText(null); // Remove default header
         
-        // Create premium styled content with app information
+        // Create styled content with app information
         VBox content = new VBox(15);
         content.setPadding(new Insets(25, 30, 25, 30));
         content.setStyle("-fx-background-color: #F7F3F0;"); // Light cream background
         
-        // App title with larger, more premium font
-        Label titleLabel = new Label("Furniture Designer Pro");
+        // App title with larger font
+        Label titleLabel = new Label("Furniture Designer");
         titleLabel.setStyle("-fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #7D5A4F;");
         
         // Version with subtle styling
@@ -1730,7 +1730,7 @@ public class MainController {
         
         // Description with improved typography
         Label descriptionLabel = new Label(
-            "Furniture Designer Pro is a professional tool for designing and " +
+            "Furniture Designer is a professional tool for designing and " +
             "visualizing interior layouts. Create rooms, add furniture, and " +
             "view your designs in both 2D and 3D."
         );
@@ -1802,7 +1802,7 @@ public class MainController {
         bottomSeparator.setStyle("-fx-background-color: #9D7B6D;");
         
         // Copyright with premium styling
-        Label copyrightLabel = new Label("© 2025 Furniture Designer Pro");
+        Label copyrightLabel = new Label("© 2025 Furniture Designer");
         copyrightLabel.setStyle("-fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-size: 12px; -fx-font-style: italic; -fx-text-fill: #9D7B6D; -fx-padding: 5 0 0 0;");
         
         // Add all elements to content
@@ -1836,7 +1836,7 @@ public class MainController {
     private void handleUserGuide() {
         Alert userGuideDialog = new Alert(Alert.AlertType.INFORMATION);
         userGuideDialog.setTitle("User Guide");
-        userGuideDialog.setHeaderText("Furniture Designer Pro - User Guide");
+        userGuideDialog.setHeaderText("Furniture Designer - User Guide");
         
         // Create scrollable content
         ScrollPane scrollPane = new ScrollPane();

@@ -21,15 +21,16 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Parent root = loader.load();
 
-            Scene scene = new Scene(root, 800, 600);
-
-            // Load CSS if available
-            URL cssUrl = getClass().getClassLoader().getResource("styles/main.css");
-            if (cssUrl != null) {
-                scene.getStylesheets().add(cssUrl.toExternalForm());
+            Scene scene = new Scene(root, 800, 600);            // Load CSS styles
+            URL mainCssUrl = getClass().getClassLoader().getResource("styles/main.css");
+            URL themeCssUrl = getClass().getClassLoader().getResource("styles/theme.css");
+            
+            if (mainCssUrl != null) {
+                scene.getStylesheets().add(mainCssUrl.toExternalForm());
             }
-
-            primaryStage.setTitle("Furniture Designer");
+            if (themeCssUrl != null) {
+                scene.getStylesheets().add(themeCssUrl.toExternalForm());
+            }primaryStage.setTitle("Furniture Designer");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

@@ -1508,13 +1508,13 @@
     -fx-font-weight: bold;
     -fx-font-size: 13px;
 }
-/* ========== LUXURY PREMIUM LOGIN STYLING (OPTIMIZED FOR WINDOW SIZE) ========== */
+/* ========== LOGIN STYLING ========== */
 .root {
     -fx-font-family: "Georgia", "Times New Roman", serif;
     -fx-background-color: #0D0D0D;
 }
 
-/* Color Palette for Premium Design
+/* Color Palette for Design
  * Dark Gold: #927238
  * Rich Gold: #C0A080
  * Highlight Gold: #D4AF37

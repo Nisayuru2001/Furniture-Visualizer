@@ -57,19 +57,26 @@ private void handleLogin() {
                 Parent root = loader.load();
 
                 Stage stage = (Stage) usernameField.getScene().getWindow();
-                Scene scene = new Scene(root);
-
-                // Load original main.css with appended premium styles
-                URL cssUrl = getClass().getClassLoader().getResource("styles/main.css");
-                if (cssUrl != null) {
-                    scene.getStylesheets().add(cssUrl.toExternalForm());
+                Scene scene = new Scene(root);                // Load CSS styles
+                URL mainCssUrl = getClass().getClassLoader().getResource("styles/main.css");
+                URL themeCssUrl = getClass().getClassLoader().getResource("styles/theme.css");
+                
+                if (mainCssUrl != null) {
+                    scene.getStylesheets().add(mainCssUrl.toExternalForm());
                     System.out.println("Main CSS loaded successfully");
                 } else {
                     System.err.println("Could not find main.css");
                 }
+                
+                if (themeCssUrl != null) {
+                    scene.getStylesheets().add(themeCssUrl.toExternalForm());
+                    System.out.println("Theme CSS loaded successfully");
+                } else {
+                    System.err.println("Could not find theme.css");
+                }
 
                 stage.setScene(scene);
-                stage.setTitle("Furniture Designer Pro - Premium Edition");
+                stage.setTitle("Furniture Designer");
                 
                 // Debug output to verify loading was successful
                 System.out.println("Main interface loaded successfully");
