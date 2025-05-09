@@ -9,7 +9,7 @@
  */
 
 .root {
-    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-family: Arial, sans-serif;
     -fx-background-color: #FFF8DC;
 }
 
@@ -30,6 +30,7 @@
     -fx-pref-width: 850px;
     -fx-max-width: 950px;
     -fx-min-height: 550px;
+    min-height: 550px;
 }
 
 .brand-container {
@@ -1552,7 +1553,7 @@
 }
 /* ========== LOGIN STYLING ========== */
 .root {
-    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-family: Arial, sans-serif;
     -fx-background-color: #0D0D0D;
 }
 
